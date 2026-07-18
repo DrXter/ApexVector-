@@ -1,0 +1,13 @@
+{
+  "name": "@apexvector/av-02-alert-triage-simulator",
+  "version": "1.0.0",
+  "description": "Structure SOC alert triage — FP likelihood, escalation tier, and next actions.",
+  "type": "module",
+  "main": "src/module.js",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.28.1",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  }
+}
