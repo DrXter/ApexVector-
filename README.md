@@ -14,12 +14,16 @@ Every module starts as a problem practitioners actually face, gets validated by 
 |----|--------|--------|--------|------|
 | **AV-01** | [VulnPriority Engine](./modules/av-01/) | AI for Security | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-01/) |
 | **AV-02** | [Alert Triage Simulator](./modules/av-02/) | AI for Security | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-02/) |
+| **AV-03** | [Risk Translator](./modules/av-03/) | AI for Security | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-03/) |
 
 ### AV-01 · VulnPriority Engine
 Rank vulnerability findings by what to fix first. Composite scoring weighs severity (CVSS), real-world exploit probability (EPSS), and business context (SSVC) — because a CVSS 9.8 on an unreachable internal box matters less than a 7.5 on your internet-facing auth service with a public exploit in the wild.
 
 ### AV-02 · Alert Triage Simulator
 Structure the SOC triage decision. Enter an alert and its context, get a false-positive likelihood, an escalation tier, and concrete next actions — with every signal that drove the call shown openly. Context beats severity: corroboration and identity privilege outrank raw alert score.
+
+### AV-03 · Risk Translator
+Turn a technical finding into the language a board actually hears — the business consequence, a risk rating, and an optional financial exposure range. Because "CVSS 9.8" means nothing in a boardroom, but "\$4M regulatory exposure, highly likely to be exploited" ends the debate. Single-finding mode and a board-ready risk register with aggregate exposure.
 
 ---
 
@@ -49,7 +53,7 @@ Most security programmes treat these as separate. They aren't.
 
 ## Repository structure
 
-```
+\`\`\`
 ApexVector-/
 ├── README.md
 └── modules/
@@ -61,15 +65,23 @@ ApexVector-/
     │       ├── engine/scoring.js     Pure scoring engine (no UI, no DOM)
     │       ├── data/                 Parsers, EPSS feed adapter, samples
     │       └── components/           Platform-mountable React module
-    └── av-02/                        Alert Triage Simulator
+    ├── av-02/                        Alert Triage Simulator
+    │   ├── index.html
+    │   ├── README.md
+    │   └── src/
+    │       ├── module.js
+    │       ├── engine/triage.js
+    │       ├── data/sample.js
+    │       └── components/
+    └── av-03/                        Risk Translator
         ├── index.html
         ├── README.md
         └── src/
             ├── module.js
-            ├── engine/triage.js
+            ├── engine/translate.js
             ├── data/sample.js
             └── components/
-```
+\`\`\`
 
 Every module follows the same shape: a **pure engine** with no UI dependency, a **data layer**, a **React component**, and a **manifest** the platform registry reads to mount it.
 
@@ -79,7 +91,7 @@ Every module follows the same shape: a **pure engine** with no UI dependency, a 
 
 Modules are built to run standalone *and* to plug into the wider ApexVector platform. Each exports a manifest with a headless API:
 
-```js
+\`\`\`js
 import manifest from './modules/av-01/src/module.js';
 
 // Mount the UI
@@ -90,15 +102,22 @@ const findings = manifest.api.parse(rawText);
 const enriched = await manifest.api.enrich(findings);   // live EPSS
 const ranked   = manifest.api.score(enriched);
 const summary  = manifest.api.summarize(ranked);
-```
+\`\`\`
 
-Manifests declare `provides` and `consumes`, so modules can feed each other through a shared data bus — AV-01's ranked findings become input to a future reporting module, AV-02's triage summary feeds a unified risk dashboard.
+Manifests declare \`provides\` and \`consumes\`, so modules feed each other through a shared data bus. The pipeline is already visible in the module set:
+
+\`\`\`
+AV-01 ranked-findings ──▶ AV-03 consumes ranked-findings ──▶ business-risk-register + financial-exposure
+AV-02 triaged-alerts  ──▶ (future) unified risk dashboard
+\`\`\`
+
+Prioritise findings in AV-01, triage the alert queue in AV-02, translate it all for the board in AV-03 — one toolkit, one data model.
 
 ---
 
 ## Running locally
 
-```bash
+\`\`\`bash
 git clone https://github.com/DrXter/ApexVector-.git
 cd ApexVector-/modules/av-01
 
@@ -106,10 +125,12 @@ cd ApexVector-/modules/av-01
 npx serve .
 
 # run the engine tests
-node src/engine/scoring.test.mjs
-```
+node src/engine/scoring.test.mjs     # av-01
+node src/engine/triage.test.mjs      # av-02
+node src/engine/translate.test.mjs   # av-03
+\`\`\`
 
-Each module's `index.html` is fully self-contained — no build step, no dependencies, no network calls required.
+Each module's \`index.html\` is fully self-contained — no build step, no dependencies, no network calls required.
 
 ---
 
@@ -128,7 +149,7 @@ ApexVector is a personal open-source project by **Abhiram Manthripragada** — a
 Not affiliated with any employer. All tools, research, and opinions are my own.
 
 - LinkedIn: [Abhiram Manthripragada](https://www.linkedin.com/in/abhiram-manthripragada-3b632ab4/)
-- Series: `#ApexVector`
+- Series: \`#ApexVector\`
 
 ---
 
