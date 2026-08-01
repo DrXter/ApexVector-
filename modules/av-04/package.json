@@ -1,0 +1,13 @@
+{
+  "name": "@apexvector/av-04-recon-planner",
+  "version": "1.0.0",
+  "description": "Prioritize authorized red-team scope by foothold probability; ATT&CK-mapped attack-path hypotheses.",
+  "type": "module",
+  "main": "src/module.js",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.28.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  }
+}
