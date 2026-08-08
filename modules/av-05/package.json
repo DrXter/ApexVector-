@@ -1,0 +1,13 @@
+{
+  "name": "@apexvector/av-05-devsecops-ai-readiness",
+  "version": "1.0.0",
+  "description": "Score how ready a pipeline is to ship AI-generated code safely; map the AI-code attack surface.",
+  "type": "module",
+  "main": "src/module.js",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.28.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  }
+}
