@@ -16,6 +16,7 @@ Every module starts as a problem practitioners actually face, gets validated by 
 | **AV-02** | [Alert Triage Simulator](./modules/av-02/) | AI for Security | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-02/) |
 | **AV-03** | [Risk Translator](./modules/av-03/) | AI for Security | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-03/) |
 | **AV-04** | [Red Team Recon Planner](./modules/av-04/) | AI for Security | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-04/) |
+| **AV-05** | [DevSecOps AI Readiness Checker](./modules/av-05/) | AI for Security | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-05/) |
 
 ### AV-01 · VulnPriority Engine
 Rank vulnerability findings by what to fix first. Composite scoring weighs severity (CVSS), real-world exploit probability (EPSS), and business context (SSVC) — because a CVSS 9.8 on an unreachable internal box matters less than a 7.5 on your internet-facing auth service with a public exploit in the wild.
@@ -28,6 +29,9 @@ Turn a technical finding into the language a board actually hears — the busine
 
 ### AV-04 · Red Team Recon Planner
 Attackers break out in ~29 minutes; a red team's hours are finite. Rank your in-scope surface by foothold probability, aligned to your objective, timebox, and stealth constraints — then get ATT&CK-mapped attack-path hypotheses to validate first. A planning aid for **authorized, scoped** engagements: it sequences effort and methodology, never exploits or attack code.
+
+### AV-05 · DevSecOps AI Readiness Checker
+Your CI/CD pipeline scans human code. Your developers are shipping AI code. Those aren't the same threat model. Score how ready your pipeline is to ship AI-generated code safely — provenance, hallucinated dependencies, license contamination, agents that can modify their own guardrails — then map the new attack surface AI introduces across your SDLC.
 
 ---
 
@@ -66,7 +70,8 @@ ApexVector-/
     ├── av-01/                        VulnPriority Engine
     ├── av-02/                        Alert Triage Simulator
     ├── av-03/                        Risk Translator
-    └── av-04/                        Red Team Recon Planner
+    ├── av-04/                        Red Team Recon Planner
+    └── av-05/                        DevSecOps AI Readiness Checker
         ├── index.html                Standalone build — open in any browser
         ├── README.md
         └── src/
@@ -102,10 +107,11 @@ Manifests declare \`provides\` and \`consumes\`, so modules feed each other thro
 \`\`\`
 AV-01 ranked-findings ──▶ AV-03 consumes ranked-findings ──▶ business-risk-register + financial-exposure
 AV-04 recon-plan      ──▶ (future) engagement-execution tracking
+AV-05 ai-readiness    ──▶ (future) unified pipeline risk view
 AV-02 triaged-alerts  ──▶ (future) unified risk dashboard
 \`\`\`
 
-Prioritise findings in AV-01, triage the alert queue in AV-02, translate it all for the board in AV-03, plan the authorized engagement in AV-04 — one toolkit, one data model.
+Prioritise findings in AV-01, triage the alert queue in AV-02, translate it for the board in AV-03, plan the authorized engagement in AV-04, and check your pipeline is ready for AI code in AV-05 — one toolkit, one data model.
 
 ---
 
@@ -119,10 +125,11 @@ cd ApexVector-/modules/av-01
 npx serve .
 
 # run the engine tests
-node src/engine/scoring.test.mjs     # av-01
-node src/engine/triage.test.mjs      # av-02
-node src/engine/translate.test.mjs   # av-03
-node src/engine/recon.test.mjs       # av-04
+node src/engine/scoring.test.mjs      # av-01
+node src/engine/triage.test.mjs       # av-02
+node src/engine/translate.test.mjs    # av-03
+node src/engine/recon.test.mjs        # av-04
+node src/engine/readiness.test.mjs    # av-05
 \`\`\`
 
 Each module's \`index.html\` is fully self-contained — no build step, no dependencies, no network calls required.
