@@ -17,21 +17,29 @@ Every module starts as a problem practitioners actually face, gets validated by 
 | **AV-03** | [Risk Translator](./modules/av-03/) | AI for Security | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-03/) |
 | **AV-04** | [Red Team Recon Planner](./modules/av-04/) | AI for Security | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-04/) |
 | **AV-05** | [DevSecOps AI Readiness Checker](./modules/av-05/) | AI for Security | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-05/) |
+| **AV-06** | [Prompt Injection Test Suite](./modules/av-06/) | 🔴 Security for AI | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-06/) |
 
-### AV-01 · VulnPriority Engine
+### — AI for Security —
+
+**AV-01 · VulnPriority Engine**
 Rank vulnerability findings by what to fix first. Composite scoring weighs severity (CVSS), real-world exploit probability (EPSS), and business context (SSVC) — because a CVSS 9.8 on an unreachable internal box matters less than a 7.5 on your internet-facing auth service with a public exploit in the wild.
 
-### AV-02 · Alert Triage Simulator
+**AV-02 · Alert Triage Simulator**
 Structure the SOC triage decision. Enter an alert and its context, get a false-positive likelihood, an escalation tier, and concrete next actions — with every signal that drove the call shown openly. Context beats severity: corroboration and identity privilege outrank raw alert score.
 
-### AV-03 · Risk Translator
+**AV-03 · Risk Translator**
 Turn a technical finding into the language a board actually hears — the business consequence, a risk rating, and an optional financial exposure range. Because "CVSS 9.8" means nothing in a boardroom, but "\$4M regulatory exposure, highly likely to be exploited" ends the debate. Single-finding mode and a board-ready risk register with aggregate exposure.
 
-### AV-04 · Red Team Recon Planner
+**AV-04 · Red Team Recon Planner**
 Attackers break out in ~29 minutes; a red team's hours are finite. Rank your in-scope surface by foothold probability, aligned to your objective, timebox, and stealth constraints — then get ATT&CK-mapped attack-path hypotheses to validate first. A planning aid for **authorized, scoped** engagements: it sequences effort and methodology, never exploits or attack code.
 
-### AV-05 · DevSecOps AI Readiness Checker
+**AV-05 · DevSecOps AI Readiness Checker**
 Your CI/CD pipeline scans human code. Your developers are shipping AI code. Those aren't the same threat model. Score how ready your pipeline is to ship AI-generated code safely — provenance, hallucinated dependencies, license contamination, agents that can modify their own guardrails — then map the new attack surface AI introduces across your SDLC.
+
+### — Security for AI —
+
+**AV-06 · Prompt Injection Test Suite**
+Your LLM cannot tell the difference between your instructions and an attacker's — they arrive in the same context window. Test a system prompt you own for the hardening controls that actually matter, get a robustness score and the injection classes you're exposed to, and browse the full catalogue of known attack classes with their defenses. A defensive tool: it hardens what you own, it doesn't weaponise against others.
 
 ---
 
@@ -41,7 +49,7 @@ Your CI/CD pipeline scans human code. Your developers are shipping AI code. Thos
 
 **Security for AI** — securing AI systems themselves: prompt injection, agentic threat models, memory poisoning, shadow AI, AI supply chain risk.
 
-Most security programmes treat these as separate. They aren't.
+Most security programmes treat these as separate. They aren't. The first five modules built out **AI for Security**; the series now turns to **Security for AI**, starting with AV-06.
 
 ---
 
@@ -53,7 +61,7 @@ Most security programmes treat these as separate. They aren't.
 
 **Explainable by default.** Every score shows its signals, weights, and reasoning. If you disagree with the output, you can see exactly why it said what it said.
 
-**Responsible by design.** Offensive-leaning tools are scoped to lawful, authorized use — methodology and prioritisation, never exploitation instructions.
+**Responsible by design.** Offensive-leaning and AI-attack-adjacent tools are scoped to lawful, authorized, defensive use — methodology, hardening, and prioritisation, never weaponisation.
 
 **Nothing leaves your machine.** All modules run entirely client-side. No accounts, no telemetry, no data collection.
 
@@ -71,7 +79,8 @@ ApexVector-/
     ├── av-02/                        Alert Triage Simulator
     ├── av-03/                        Risk Translator
     ├── av-04/                        Red Team Recon Planner
-    └── av-05/                        DevSecOps AI Readiness Checker
+    ├── av-05/                        DevSecOps AI Readiness Checker
+    └── av-06/                        Prompt Injection Test Suite
         ├── index.html                Standalone build — open in any browser
         ├── README.md
         └── src/
@@ -108,10 +117,11 @@ Manifests declare \`provides\` and \`consumes\`, so modules feed each other thro
 AV-01 ranked-findings ──▶ AV-03 consumes ranked-findings ──▶ business-risk-register + financial-exposure
 AV-04 recon-plan      ──▶ (future) engagement-execution tracking
 AV-05 ai-readiness    ──▶ (future) unified pipeline risk view
+AV-06 injection-exposure ──▶ (future) AI system risk register
 AV-02 triaged-alerts  ──▶ (future) unified risk dashboard
 \`\`\`
 
-Prioritise findings in AV-01, triage the alert queue in AV-02, translate it for the board in AV-03, plan the authorized engagement in AV-04, and check your pipeline is ready for AI code in AV-05 — one toolkit, one data model.
+Prioritise findings in AV-01, triage the alert queue in AV-02, translate it for the board in AV-03, plan the authorized engagement in AV-04, check your pipeline is ready for AI code in AV-05, and harden your own AI systems in AV-06 — one toolkit, spanning both problem spaces.
 
 ---
 
@@ -130,6 +140,7 @@ node src/engine/triage.test.mjs       # av-02
 node src/engine/translate.test.mjs    # av-03
 node src/engine/recon.test.mjs        # av-04
 node src/engine/readiness.test.mjs    # av-05
+node src/engine/injection.test.mjs    # av-06
 \`\`\`
 
 Each module's \`index.html\` is fully self-contained — no build step, no dependencies, no network calls required.
