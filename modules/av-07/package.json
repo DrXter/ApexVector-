@@ -1,0 +1,13 @@
+{
+  "name": "@apexvector/av-07-agentic-threat-modeller",
+  "version": "1.0.0",
+  "description": "Model an AI agent's blast radius and applicable agentic threats from its tools, autonomy, and exposure.",
+  "type": "module",
+  "main": "src/module.js",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  }
+}
