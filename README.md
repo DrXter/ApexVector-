@@ -18,6 +18,7 @@ Every module starts as a problem practitioners actually face, gets validated by 
 | **AV-04** | [Red Team Recon Planner](./modules/av-04/) | AI for Security | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-04/) |
 | **AV-05** | [DevSecOps AI Readiness Checker](./modules/av-05/) | AI for Security | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-05/) |
 | **AV-06** | [Prompt Injection Test Suite](./modules/av-06/) | 🔴 Security for AI | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-06/) |
+| **AV-07** | [Agentic AI Threat Modeller](./modules/av-07/) | 🔴 Security for AI | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-07/) |
 
 ### — AI for Security —
 
@@ -41,6 +42,9 @@ Your CI/CD pipeline scans human code. Your developers are shipping AI code. Thos
 **AV-06 · Prompt Injection Test Suite**
 Your LLM cannot tell the difference between your instructions and an attacker's — they arrive in the same context window. Test a system prompt you own for the hardening controls that actually matter, get a robustness score and the injection classes you're exposed to, and browse the full catalogue of known attack classes with their defenses. A defensive tool: it hardens what you own, it doesn't weaponise against others.
 
+**AV-07 · Agentic AI Threat Modeller**
+A prompt injection is a content problem — until the model has tools. Then it's an actions problem. Describe your agent's capabilities, autonomy, and exposure, and see its blast radius: how much damage a single hijack could do, which actions are irreversible, where the guardrails are missing, and which agentic threats apply (goal manipulation, tool misuse, indirect injection, excessive agency, memory poisoning, exfiltration). The blast radius is defined by what the agent can do, not what it can say.
+
 ---
 
 ## Two problem spaces
@@ -49,7 +53,7 @@ Your LLM cannot tell the difference between your instructions and an attacker's 
 
 **Security for AI** — securing AI systems themselves: prompt injection, agentic threat models, memory poisoning, shadow AI, AI supply chain risk.
 
-Most security programmes treat these as separate. They aren't. The first five modules built out **AI for Security**; the series now turns to **Security for AI**, starting with AV-06.
+Most security programmes treat these as separate. They aren't. The first five modules built out **AI for Security**; the series now runs in **Security for AI**, starting with AV-06.
 
 ---
 
@@ -61,7 +65,7 @@ Most security programmes treat these as separate. They aren't. The first five mo
 
 **Explainable by default.** Every score shows its signals, weights, and reasoning. If you disagree with the output, you can see exactly why it said what it said.
 
-**Responsible by design.** Offensive-leaning and AI-attack-adjacent tools are scoped to lawful, authorized, defensive use — methodology, hardening, and prioritisation, never weaponisation.
+**Responsible by design.** Offensive-leaning and AI-attack-adjacent tools are scoped to lawful, authorized, defensive use — methodology, hardening, and threat-modelling, never weaponisation.
 
 **Nothing leaves your machine.** All modules run entirely client-side. No accounts, no telemetry, no data collection.
 
@@ -80,7 +84,8 @@ ApexVector-/
     ├── av-03/                        Risk Translator
     ├── av-04/                        Red Team Recon Planner
     ├── av-05/                        DevSecOps AI Readiness Checker
-    └── av-06/                        Prompt Injection Test Suite
+    ├── av-06/                        Prompt Injection Test Suite
+    └── av-07/                        Agentic AI Threat Modeller
         ├── index.html                Standalone build — open in any browser
         ├── README.md
         └── src/
@@ -117,11 +122,12 @@ Manifests declare \`provides\` and \`consumes\`, so modules feed each other thro
 AV-01 ranked-findings ──▶ AV-03 consumes ranked-findings ──▶ business-risk-register + financial-exposure
 AV-04 recon-plan      ──▶ (future) engagement-execution tracking
 AV-05 ai-readiness    ──▶ (future) unified pipeline risk view
-AV-06 injection-exposure ──▶ (future) AI system risk register
+AV-06 injection-exposure ─┐
+AV-07 agent-blast-radius ─┴▶ (future) AI system risk register
 AV-02 triaged-alerts  ──▶ (future) unified risk dashboard
 \`\`\`
 
-Prioritise findings in AV-01, triage the alert queue in AV-02, translate it for the board in AV-03, plan the authorized engagement in AV-04, check your pipeline is ready for AI code in AV-05, and harden your own AI systems in AV-06 — one toolkit, spanning both problem spaces.
+Prioritise findings in AV-01, triage the alert queue in AV-02, translate it for the board in AV-03, plan the authorized engagement in AV-04, check your pipeline is ready for AI code in AV-05, harden your prompts in AV-06, and model your agents' blast radius in AV-07 — one toolkit, spanning both problem spaces.
 
 ---
 
@@ -141,6 +147,7 @@ node src/engine/translate.test.mjs    # av-03
 node src/engine/recon.test.mjs        # av-04
 node src/engine/readiness.test.mjs    # av-05
 node src/engine/injection.test.mjs    # av-06
+node src/engine/agentic.test.mjs      # av-07
 \`\`\`
 
 Each module's \`index.html\` is fully self-contained — no build step, no dependencies, no network calls required.
