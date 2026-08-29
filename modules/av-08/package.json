@@ -1,0 +1,13 @@
+{
+  "name": "@apexvector/av-08-memory-attack-simulator",
+  "version": "1.0.0",
+  "description": "Analyse an agent memory design for poisoning, persistence, and cross-user-leak risk; learn the attack classes.",
+  "type": "module",
+  "main": "src/module.js",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  }
+}
