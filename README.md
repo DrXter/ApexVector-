@@ -20,6 +20,7 @@ Every module starts as a problem practitioners actually face, gets validated by 
 | **AV-06** | [Prompt Injection Test Suite](./modules/av-06/) | 🔴 Security for AI | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-06/) |
 | **AV-07** | [Agentic AI Threat Modeller](./modules/av-07/) | 🔴 Security for AI | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-07/) |
 | **AV-08** | [AI Memory Attack Simulator](./modules/av-08/) | 🔴 Security for AI | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-08/) |
+| **AV-09** | [Shadow AI Risk Scanner](./modules/av-09/) | 🔴 Security for AI | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-09/) |
 
 ### — AI for Security —
 
@@ -40,7 +41,7 @@ Your CI/CD pipeline scans human code. Your developers are shipping AI code. Thos
 
 ### — Security for AI —
 
-*An escalating arc: content → actions → persistence.*
+*From attack mechanics (content → actions → persistence) to governance.*
 
 **AV-06 · Prompt Injection Test Suite**
 Your LLM cannot tell the difference between your instructions and an attacker's — they arrive in the same context window. Test a system prompt you own for the hardening controls that actually matter, get a robustness score and the injection classes you're exposed to, and browse the full catalogue of known attack classes with their defenses. A defensive tool: it hardens what you own, it doesn't weaponise against others. *(The content problem.)*
@@ -51,6 +52,9 @@ A prompt injection is a content problem — until the model has tools. Then it's
 **AV-08 · AI Memory Attack Simulator**
 A prompt injection is a one-shot — unless your agent has memory. Then a single poisoned entry persists into every future session, and one win becomes a durable foothold. Analyse your memory setup for poisoning, persistence, and cross-user leakage, get the controls you're missing, and browse the memory attack classes with defenses. The core defense: treat stored memory as untrusted input that happens to persist, not as trusted truth. *(The persistence problem.)*
 
+**AV-09 · Shadow AI Risk Scanner**
+Your employees are already using AI tools you've never heard of — pasting data into models you've never vetted. Shadow AI is shadow IT's faster, hungrier cousin, and the risk isn't the tools; it's the invisibility. Assess your org's exposure across nine governance dimensions and get a prioritised action plan, or score an individual unsanctioned tool against data, access, and compliance criteria. You cannot govern what you cannot see: discover first, enable second, control third. *(The governance problem.)*
+
 ---
 
 ## Two problem spaces
@@ -59,7 +63,7 @@ A prompt injection is a one-shot — unless your agent has memory. Then a single
 
 **Security for AI** — securing AI systems themselves: prompt injection, agentic threat models, memory poisoning, shadow AI, AI supply chain risk.
 
-Most security programmes treat these as separate. They aren't. The first five modules built out **AI for Security**; the series now runs in **Security for AI**, tracing an escalating arc from content (AV-06) to actions (AV-07) to persistence (AV-08).
+Most security programmes treat these as separate. They aren't. The first five modules built out **AI for Security**; the series now runs in **Security for AI**, moving from attack mechanics (content → actions → persistence, AV-06 to AV-08) into governance (AV-09 onward).
 
 ---
 
@@ -92,7 +96,8 @@ ApexVector-/
     ├── av-05/                        DevSecOps AI Readiness Checker
     ├── av-06/                        Prompt Injection Test Suite
     ├── av-07/                        Agentic AI Threat Modeller
-    └── av-08/                        AI Memory Attack Simulator
+    ├── av-08/                        AI Memory Attack Simulator
+    └── av-09/                        Shadow AI Risk Scanner
         ├── index.html                Standalone build — open in any browser
         ├── README.md
         └── src/
@@ -131,11 +136,12 @@ AV-04 recon-plan      ──▶ (future) engagement-execution tracking
 AV-05 ai-readiness    ──▶ (future) unified pipeline risk view
 AV-06 injection-exposure ─┐
 AV-07 agent-blast-radius ─┤
-AV-08 memory-attack-exposure ─┴▶ (future) AI system risk register
+AV-08 memory-attack-exposure ─┤
+AV-09 shadow-ai-exposure ─┴▶ (future) AI system risk register
 AV-02 triaged-alerts  ──▶ (future) unified risk dashboard
 \`\`\`
 
-Prioritise findings in AV-01, triage the alert queue in AV-02, translate it for the board in AV-03, plan the authorized engagement in AV-04, check your pipeline is ready for AI code in AV-05, harden your prompts in AV-06, model your agents' blast radius in AV-07, and secure their memory in AV-08 — one toolkit, spanning both problem spaces.
+Prioritise findings in AV-01, triage the alert queue in AV-02, translate it for the board in AV-03, plan the authorized engagement in AV-04, check your pipeline is ready for AI code in AV-05, harden your prompts in AV-06, model your agents' blast radius in AV-07, secure their memory in AV-08, and govern shadow AI in AV-09 — one toolkit, spanning both problem spaces.
 
 ---
 
@@ -157,6 +163,7 @@ node src/engine/readiness.test.mjs    # av-05
 node src/engine/injection.test.mjs    # av-06
 node src/engine/agentic.test.mjs      # av-07
 node src/engine/memory.test.mjs       # av-08
+node src/engine/shadow.test.mjs       # av-09
 \`\`\`
 
 Each module's \`index.html\` is fully self-contained — no build step, no dependencies, no network calls required.
