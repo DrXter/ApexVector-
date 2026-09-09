@@ -1,0 +1,13 @@
+{
+  "name": "@apexvector/av-09-shadow-ai-scanner",
+  "version": "1.0.0",
+  "description": "Assess org-wide shadow-AI exposure with an action plan, and score individual unsanctioned AI tools.",
+  "type": "module",
+  "main": "src/module.js",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  }
+}
