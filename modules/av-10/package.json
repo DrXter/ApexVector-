@@ -1,0 +1,13 @@
+{
+  "name": "@apexvector/av-10-final-showdown",
+  "version": "1.0.0",
+  "description": "Season 1 finale — unified AI-security posture engine combining all 9 prior modules into one composite score.",
+  "type": "module",
+  "main": "src/module.js",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  }
+}
