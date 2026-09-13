@@ -6,6 +6,8 @@ An open-source security toolkit — built one real problem at a time.
 
 Every module starts as a problem practitioners actually face, gets validated by the community, and ships as a working tool you can open in your browser. No frameworks. No whitepapers. No sign-up.
 
+**Season 1 is complete — ten modules across two problem spaces.** Season 2 is coming up next, built for the boardroom and the difficult decisions it has to make on AI risk.
+
 ---
 
 ## Modules
@@ -21,6 +23,7 @@ Every module starts as a problem practitioners actually face, gets validated by 
 | **AV-07** | [Agentic AI Threat Modeller](./modules/av-07/) | 🔴 Security for AI | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-07/) |
 | **AV-08** | [AI Memory Attack Simulator](./modules/av-08/) | 🔴 Security for AI | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-08/) |
 | **AV-09** | [Shadow AI Risk Scanner](./modules/av-09/) | 🔴 Security for AI | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-09/) |
+| **AV-10** | [The Final Showdown](./modules/av-10/) | 🟡 Season 1 Finale | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-10/) |
 
 ### — AI for Security —
 
@@ -41,7 +44,7 @@ Your CI/CD pipeline scans human code. Your developers are shipping AI code. Thos
 
 ### — Security for AI —
 
-*From attack mechanics (content → actions → persistence) to governance.*
+*An escalating arc: content → actions → persistence → governance.*
 
 **AV-06 · Prompt Injection Test Suite**
 Your LLM cannot tell the difference between your instructions and an attacker's — they arrive in the same context window. Test a system prompt you own for the hardening controls that actually matter, get a robustness score and the injection classes you're exposed to, and browse the full catalogue of known attack classes with their defenses. A defensive tool: it hardens what you own, it doesn't weaponise against others. *(The content problem.)*
@@ -55,6 +58,11 @@ A prompt injection is a one-shot — unless your agent has memory. Then a single
 **AV-09 · Shadow AI Risk Scanner**
 Your employees are already using AI tools you've never heard of — pasting data into models you've never vetted. Shadow AI is shadow IT's faster, hungrier cousin, and the risk isn't the tools; it's the invisibility. Assess your org's exposure across nine governance dimensions and get a prioritised action plan, or score an individual unsanctioned tool against data, access, and compliance criteria. You cannot govern what you cannot see: discover first, enable second, control third. *(The governance problem.)*
 
+### — Season 1 Finale —
+
+**AV-10 · The Final Showdown**
+Nine modules. Nine lenses on the same organisation. One shared intake runs through all of them — vulnerability priority feeds straight into board risk translation, the one real chain in the series — and every lens rolls up into a single composite AI-security posture score. Not a fake pipeline pretending unrelated risk domains cause one another: nine honest, independent measurements, combined into one portfolio view. Edit the intake, run the pipeline, see which of the nine lenses is your weakest link.
+
 ---
 
 ## Two problem spaces
@@ -63,7 +71,7 @@ Your employees are already using AI tools you've never heard of — pasting data
 
 **Security for AI** — securing AI systems themselves: prompt injection, agentic threat models, memory poisoning, shadow AI, AI supply chain risk.
 
-Most security programmes treat these as separate. They aren't. The first five modules built out **AI for Security**; the series now runs in **Security for AI**, moving from attack mechanics (content → actions → persistence, AV-06 to AV-08) into governance (AV-09 onward).
+Most security programmes treat these as separate. They aren't. Season 1 built out **AI for Security** first (AV-01–05), then moved into **Security for AI** (AV-06–09), tracing an escalating arc from content to actions to persistence to governance — before closing with a composite view across all nine (AV-10).
 
 ---
 
@@ -77,6 +85,8 @@ Most security programmes treat these as separate. They aren't. The first five mo
 
 **Responsible by design.** Offensive-leaning and AI-attack-adjacent tools are scoped to lawful, authorized, defensive use — methodology, hardening, and threat-modelling, never weaponisation.
 
+**Honest about relationships.** AV-10 combines nine independent risk lenses into one score without fabricating causal links between domains that don't actually depend on each other. A portfolio view, not a false pipeline.
+
 **Nothing leaves your machine.** All modules run entirely client-side. No accounts, no telemetry, no data collection.
 
 **Open source, always.** MIT licensed. Fork it, extend it, run it locally.
@@ -85,7 +95,7 @@ Most security programmes treat these as separate. They aren't. The first five mo
 
 ## Repository structure
 
-\`\`\`
+```
 ApexVector-/
 ├── README.md
 └── modules/
@@ -97,15 +107,16 @@ ApexVector-/
     ├── av-06/                        Prompt Injection Test Suite
     ├── av-07/                        Agentic AI Threat Modeller
     ├── av-08/                        AI Memory Attack Simulator
-    └── av-09/                        Shadow AI Risk Scanner
+    ├── av-09/                        Shadow AI Risk Scanner
+    └── av-10/                        The Final Showdown (Season 1 finale)
         ├── index.html                Standalone build — open in any browser
         ├── README.md
         └── src/
             ├── module.js             Platform manifest — registry + headless API
-            ├── engine/               Pure engine (no UI, no DOM) + tests
+            ├── engine(s)/            Pure engine (no UI, no DOM) + tests
             ├── data/                 Samples, parsers, exporters
             └── components/           Platform-mountable React module
-\`\`\`
+```
 
 Every module follows the same shape: a **pure engine** with no UI dependency, a **data layer**, a **React component**, and a **manifest** the platform registry reads to mount it.
 
@@ -115,7 +126,7 @@ Every module follows the same shape: a **pure engine** with no UI dependency, a 
 
 Modules are built to run standalone *and* to plug into the wider ApexVector platform. Each exports a manifest with a headless API:
 
-\`\`\`js
+```js
 import manifest from './modules/av-01/src/module.js';
 
 // Mount the UI
@@ -126,28 +137,28 @@ const findings = manifest.api.parse(rawText);
 const enriched = await manifest.api.enrich(findings);   // live EPSS
 const ranked   = manifest.api.score(enriched);
 const summary  = manifest.api.summarize(ranked);
-\`\`\`
+```
 
-Manifests declare \`provides\` and \`consumes\`, so modules feed each other through a shared data bus. The pipeline is already visible across the module set:
+Manifests declare `provides` and `consumes`, so modules feed each other through a shared data bus. Across the module set:
 
-\`\`\`
+```
 AV-01 ranked-findings ──▶ AV-03 consumes ranked-findings ──▶ business-risk-register + financial-exposure
-AV-04 recon-plan      ──▶ (future) engagement-execution tracking
-AV-05 ai-readiness    ──▶ (future) unified pipeline risk view
-AV-06 injection-exposure ─┐
-AV-07 agent-blast-radius ─┤
+AV-04 recon-plan          ─┐
+AV-05 ai-readiness        ─┤
+AV-06 injection-exposure   ─┤
+AV-07 agent-blast-radius   ─┼──▶ AV-10 combines all nine into one composite AI-security posture score
 AV-08 memory-attack-exposure ─┤
-AV-09 shadow-ai-exposure ─┴▶ (future) AI system risk register
-AV-02 triaged-alerts  ──▶ (future) unified risk dashboard
-\`\`\`
+AV-09 shadow-ai-exposure    ─┘
+AV-02 triaged-alerts      ─┘
+```
 
-Prioritise findings in AV-01, triage the alert queue in AV-02, translate it for the board in AV-03, plan the authorized engagement in AV-04, check your pipeline is ready for AI code in AV-05, harden your prompts in AV-06, model your agents' blast radius in AV-07, secure their memory in AV-08, and govern shadow AI in AV-09 — one toolkit, spanning both problem spaces.
+AV-10 is explicit that only the AV-01 → AV-03 link is a genuine causal chain; every other module feeds the composite as an independent lens, not a fabricated pipeline stage.
 
 ---
 
 ## Running locally
 
-\`\`\`bash
+```bash
 git clone https://github.com/DrXter/ApexVector-.git
 cd ApexVector-/modules/av-01
 
@@ -164,9 +175,18 @@ node src/engine/injection.test.mjs    # av-06
 node src/engine/agentic.test.mjs      # av-07
 node src/engine/memory.test.mjs       # av-08
 node src/engine/shadow.test.mjs       # av-09
-\`\`\`
+node src/engines/posture.test.mjs     # av-10
+```
 
-Each module's \`index.html\` is fully self-contained — no build step, no dependencies, no network calls required.
+Each module's `index.html` is fully self-contained — no build step, no dependencies, no network calls required.
+
+---
+
+## What's next — Season 2
+
+Season 1 was built for practitioners — engineers, analysts, red-teamers who open a tool and use it. **Season 2 is built for the boardroom** — CISOs, CXOs, board and audit-committee members who fund, govern, and ultimately answer for AI risk. Same open-source discipline, same weekly rhythm, different questions: AI security budget and ROI, accountability when an AI system fails, exposure from shadow AI and ungoverned agents, AI supply chain due diligence, and where a company's AI-driven IP is actually at risk.
+
+Details land here as Season 2 begins.
 
 ---
 
@@ -185,7 +205,7 @@ ApexVector is a personal open-source project by **Abhiram Manthripragada** — a
 Not affiliated with any employer. All tools, research, and opinions are my own.
 
 - LinkedIn: [Abhiram Manthripragada](https://www.linkedin.com/in/abhiram-manthripragada-3b632ab4/)
-- Series: \`#ApexVector\`
+- Series: `#ApexVector`
 
 ---
 
@@ -195,4 +215,4 @@ MIT — use it, fork it, build on it.
 
 ---
 
-*ApexVector · AI for Security · Security for AI · Built in public.*
+*ApexVector · AI for Security · Security for AI · Season 1 complete · Built in public.*
