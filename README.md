@@ -24,6 +24,7 @@ Every module starts as a problem practitioners actually face, gets validated by 
 | **AV-08** | [AI Memory Attack Simulator](./modules/av-08/) | 🔴 Security for AI | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-08/) |
 | **AV-09** | [Shadow AI Risk Scanner](./modules/av-09/) | 🔴 Security for AI | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-09/) |
 | **AV-10** | [The Final Showdown](./modules/av-10/) | 🟡 Season 1 Finale | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-10/) |
+| **AV-11** | [Pentest Cadence Gap Calculator](./modules/av-11/) | AI for Security · Season 2 | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-11/) |
 
 ### — AI for Security —
 
@@ -108,7 +109,8 @@ ApexVector-/
     ├── av-07/                        Agentic AI Threat Modeller
     ├── av-08/                        AI Memory Attack Simulator
     ├── av-09/                        Shadow AI Risk Scanner
-    └── av-10/                        The Final Showdown (Season 1 finale)
+    ├── av-10/                        The Final Showdown (Season 1 finale)
+    └── av-11/                        Pentest Cadence Gap Calculator (Season 2, Episode 1)
         ├── index.html                Standalone build — open in any browser
         ├── README.md
         └── src/

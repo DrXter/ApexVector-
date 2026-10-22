@@ -1,0 +1,13 @@
+{
+  "name": "@apexvector/av-11-pentest-cadence-gap-calculator",
+  "version": "1.0.0",
+  "description": "How many days a year does the running system differ from the last one anyone tested? Season 2, Episode 1.",
+  "type": "module",
+  "main": "src/module.js",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  }
+}
