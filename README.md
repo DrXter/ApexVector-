@@ -28,7 +28,7 @@ Every module starts as a problem practitioners actually face, gets validated by 
 
 ### Season 2 · bring your own local model
 
-Season 2 modules export their result as JSON and prompt-ready Markdown from one shared schema, generated in the browser. [AV-11](./modules/av-11/) adds a copy-as-prompt button and a script that sends an export to a model running on your own machine (Ollama or any OpenAI-compatible local endpoint, localhost only). Tuned local model packages and a master copilot are planned for later Season 2 episodes and are not released yet.
+Season 2 modules export their result as JSON and prompt-ready Markdown from one shared schema, generated in the browser. [AV-11](./modules/av-11/) adds a copy-as-prompt button and a script that sends an export to a model running on your own machine (Ollama or any OpenAI-compatible local endpoint, localhost only). The goal of the season is a GCC-ready local LLM, released at the end, and a way for any GCC to tune its own internal models; AV-11 already exports training records (JSONL) and generates a seeded synthetic dataset toward that. Tuned model packages, the master copilot and the LLM itself are planned and not released yet.
 
 ### — AI for Security —
 

@@ -55,9 +55,19 @@ The script refuses any endpoint that is not on localhost. The starter prompt ask
 
 `examples/` holds a synthetic sample export in each form (`sample-export.json`, `sample-export.md`, `sample-prompt.txt`). Regenerate them with `node examples/make-samples.mjs`.
 
+## Results as training data
+
+The long-term goal of Season 2 is a GCC-ready local LLM, and a way for any GCC to tune its own internal models. So AV-11's results are shaped as training data, not only as text for a prompt.
+
+- **Training record (JSONL):** the **export training record** button downloads one example in chat format (`system`, `user`, `assistant`) under the `apexvector-training-record` 1.0 schema. The `user` turn is your inputs as data. The `assistant` turn is written by the module's own deterministic engine: band, untested days, the parent-cycle lens, the suggested cadence, assumptions and limits. The human gate decision is stored as a label. A model tuned on these learns to reproduce engine-grounded advice instead of guessing.
+- **Synthetic dataset generator:** `node examples/make-dataset.mjs 500 11 > av11-synthetic.jsonl` builds a seeded, reproducible set from sampled inputs, every record produced by the engine. `examples/sample-dataset.jsonl` holds 20.
+- **Data rules:** synthetic or user-entered data only. No client or engagement data. Nothing is uploaded; the files are generated in your browser or on your machine.
+
+One record is an example, not a dataset, and one module's records do not make a model. The planned approach is one open-weight base model plus a small tuned adapter per module, shipped only if it beats the untuned base on that module's published eval set.
+
 **Status, stated plainly**
 - Live: the calculator, the export, the copy-as-prompt button, the local script. The script is tested against a mock OpenAI-compatible server in this repo's checks, not yet against a real Ollama install.
-- Planned for Season 2: a small tuned model package per module that runs locally, and a master copilot that takes every module's export plus a GCC knowledge pack, with a decision-gate engine in front. AV-11's tuned package is **not released yet**.
+- Planned for Season 2: a GCC-ready local LLM released at the end of the season, a small tuned model package per module that runs locally, and a master copilot that takes every module's export plus a GCC knowledge pack, with a decision-gate engine in front. None of these is released yet, including AV-11's tuned package and the eval results.
 - Local models vary and can be wrong. Treat the output as a draft for a person to review.
 
 ## Architecture
@@ -74,7 +84,8 @@ av-11/
 ├── examples/
 │   ├── ask-local-model.mjs            Send an export to a local model (localhost only)
 │   ├── make-samples.mjs               Regenerates the sample exports
-│   └── sample-export.{json,md}, sample-prompt.txt
+│   ├── make-dataset.mjs               Seeded synthetic training set (JSONL)
+│   └── sample-export.{json,md}, sample-prompt.txt, sample-dataset.jsonl
 └── index.html                         Self-contained standalone build
 ```
 

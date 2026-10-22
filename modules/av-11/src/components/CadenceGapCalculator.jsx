@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { assessCadenceGap, DAYS, DECISIONS } from '../engine/cadence.js';
-import { SAMPLE_GCC, exportBundleJson, exportBundleMarkdown, exportPrompt } from '../data/sample.js';
+import { SAMPLE_GCC, exportBundleJson, exportBundleMarkdown, exportPrompt, exportTrainingJsonl } from '../data/sample.js';
 
 const BAND_COLOR = { photograph: '#FF4444', wide: '#FF8C42', narrowing: '#F5A623', tight: '#00FF41' };
 
@@ -101,6 +101,7 @@ export default function CadenceGapCalculator({ onResult, embedded = false }) {
             catch { setCopied('copy blocked by the browser: use export Markdown instead'); }
           }}
           onJson={() => download(exportBundleJson(result, decision, system), 'apexvector-av11-cadence-gap.json', 'application/json')}
+          onTrain={() => download(exportTrainingJsonl(result, decision, system), 'apexvector-av11-training-record.jsonl', 'application/x-ndjson')}
           onMd={() => download(exportBundleMarkdown(result, decision, system), 'apexvector-av11-cadence-gap.md', 'text/markdown')} />
       )}
 
@@ -160,7 +161,7 @@ function RiverStrip({ r }) {
   );
 }
 
-function Result({ r, system, decision, setDecision, onJson, onMd, onCopy, copied }) {
+function Result({ r, system, decision, setDecision, onJson, onMd, onTrain, onCopy, copied }) {
   const c = BAND_COLOR[r.band];
   const st = r.steps;
   const needText = Number.isFinite(r.suggested.testsPerYear) ? `${r.suggested.testsPerYear} tests a year` : 'more than 1,000 tests a year';
@@ -243,6 +244,7 @@ function Result({ r, system, decision, setDecision, onJson, onMd, onCopy, copied
       <div style={S.controls}>
         <button style={{ ...S.btn, ...S.btnGhost, ...S.small }} onClick={onJson}>export JSON</button>
         <button style={{ ...S.btn, ...S.btnGhost, ...S.small }} onClick={onMd}>export Markdown for your LLM</button>
+        <button style={{ ...S.btn, ...S.btnGhost, ...S.small }} onClick={onTrain}>export training record (JSONL)</button>
         <button style={{ ...S.btn, ...S.btnGhost, ...S.small }} onClick={onCopy}>copy as prompt for your local LLM</button>
         <span style={S.hint}>{copied || 'generated in your browser, includes the decision above. nothing is sent anywhere'}</span>
       </div>

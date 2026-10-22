@@ -78,3 +78,33 @@ export function exportMarkdown(bundle) {
   md.push('');
   return md.join('\n');
 }
+
+/**
+ * Training record: one example for tuning a model, in chat format (JSONL-ready).
+ * The assistant turn is produced by the module's own deterministic engine, so
+ * the example teaches a model to reproduce engine-grounded advice, not to guess.
+ * One record is an example, not a dataset: a useful set needs many varied records.
+ */
+export const TRAINING_SCHEMA_ID = 'apexvector-training-record';
+export const TRAINING_SCHEMA_VERSION = '1.0';
+
+export function buildTrainingRecord({ moduleId, moduleVersion, system, user, assistant, labels = {}, generatedAt }) {
+  return {
+    schema: TRAINING_SCHEMA_ID,
+    schemaVersion: TRAINING_SCHEMA_VERSION,
+    module: { id: moduleId, version: moduleVersion },
+    messages: [
+      { role: 'system', content: system },
+      { role: 'user', content: user },
+      { role: 'assistant', content: assistant },
+    ],
+    labels,
+    provenance: {
+      data: 'Synthetic or user-entered data only. No client or engagement data.',
+      generatedAt: generatedAt ?? new Date().toISOString(),
+    },
+  };
+}
+
+/** One JSON object per line. */
+export const exportJsonl = (records) => records.map((r) => JSON.stringify(r)).join('\n') + '\n';

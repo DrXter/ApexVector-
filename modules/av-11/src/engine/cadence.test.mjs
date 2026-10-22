@@ -6,7 +6,7 @@ import {
   assessCadenceGap, validateInputs, coveredDays, untestedShare, neededTests, tierFor, riskStatement,
   GAP_BANDS, CADENCE_TIERS, DAYS, DEFAULTS, MODULE_ID, ENGINE_VERSION, DECISIONS,
 } from './cadence.js';
-import { SAMPLE_GCC, toBundle, exportBundleJson, exportBundleMarkdown, exportPrompt, PROMPT_RISK_MEMO } from '../data/sample.js';
+import { SAMPLE_GCC, toBundle, exportBundleJson, exportBundleMarkdown, exportPrompt, PROMPT_RISK_MEMO, toTrainingRecord, exportTrainingJsonl, engineAnswer } from '../data/sample.js';
 import { buildExport, exportJson, exportMarkdown, SCHEMA_ID } from '../export/schema.js';
 
 let pass = 0, fail = 0;
@@ -163,6 +163,18 @@ const pr = exportPrompt(s, 'pending', SAMPLE_GCC.name, fixed);
 assert(pr.startsWith(PROMPT_RISK_MEMO), 'prompt starts with the starter prompt');
 assert(pr.includes('## Limits') && pr.includes('## Human decisions'), 'prompt carries the limits and the human decision');
 assert(pr.includes('Do not state any number that is not in the file'), 'prompt forbids invented numbers');
+
+// training record
+const tr = toTrainingRecord(s, 'rejected', SAMPLE_GCC.name, fixed);
+assert(tr.schema === 'apexvector-training-record' && tr.module.id === 'av-11', 'training record names its schema and module');
+assert(tr.messages.map((m) => m.role).join() === 'system,user,assistant', 'chat format: system, user, assistant');
+assert(JSON.parse(tr.messages[1].content).releasesPerMonth === 8, 'user turn carries the inputs as data');
+assert(tr.messages[2].content.includes('360.2') && tr.messages[2].content.includes('Limits:'), 'assistant turn carries engine numbers and the limits');
+assert(tr.labels.humanDecision === 'rejected', 'human decision is a label');
+assert(/synthetic or user-entered/i.test(tr.provenance.data), 'provenance says synthetic or user-entered');
+assert(engineAnswer(s) === engineAnswer(assessCadenceGap(SAMPLE_GCC)), 'assistant turn is deterministic');
+const jl = exportTrainingJsonl(s, 'accepted', SAMPLE_GCC.name, fixed).trim().split('\n');
+assert(jl.length === 1 && JSON.parse(jl[0]).labels.humanDecision === 'accepted', 'JSONL is one valid JSON object per line');
 
 console.log(`\nAV-11 pentest cadence gap calculator engine: ${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);
