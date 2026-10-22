@@ -36,9 +36,29 @@ Cadence ladder (ApexVector's own, not a standard): annual · semi-annual · quar
 - Which releases change the attack surface is a judgment call, and it drives the result.
 - Synthetic sample data only. Runs in the browser; nothing is sent anywhere.
 
-## LLM-ready export
+## LLM-ready export, and your local model
 
-JSON and Markdown from the shared Season 2 schema (`apexvector-export` 1.0): inputs, outputs, the human decision, assumptions and limits.
+The result is the start of the work. Export it, hand it to a model on your own machine, and keep the data inside your boundary.
+
+**What the export carries** (shared Season 2 schema `apexvector-export` 1.0): module and version, your inputs, the outputs, the human decision taken at the gate, the assumptions in use, and the module's stated limits. Two forms from one schema: JSON for tools, Markdown for prompts. Both are generated in the browser. There is no upload step, and exports hold synthetic or user-entered data only.
+
+**In the app:** the **copy as prompt for your local LLM** button puts a starter prompt plus the Markdown export on your clipboard.
+
+**From the command line:** send an export to any local runtime that serves an OpenAI-compatible chat endpoint (Ollama, llama.cpp server, vLLM).
+
+```bash
+AV_MODEL=<your-model-name> node examples/ask-local-model.mjs examples/sample-export.md
+# default endpoint: http://localhost:11434/v1/chat/completions (Ollama). Override with AV_ENDPOINT.
+```
+
+The script refuses any endpoint that is not on localhost. The starter prompt asks for a one-page risk memo and tells the model not to state any number that is not in the file. The arithmetic and the human decision stay in the file; the model only drafts.
+
+`examples/` holds a synthetic sample export in each form (`sample-export.json`, `sample-export.md`, `sample-prompt.txt`). Regenerate them with `node examples/make-samples.mjs`.
+
+**Status, stated plainly**
+- Live: the calculator, the export, the copy-as-prompt button, the local script. The script is tested against a mock OpenAI-compatible server in this repo's checks, not yet against a real Ollama install.
+- Planned for Season 2: a small tuned model package per module that runs locally, and a master copilot that takes every module's export plus a GCC knowledge pack, with a decision-gate engine in front. AV-11's tuned package is **not released yet**.
+- Local models vary and can be wrong. Treat the output as a draft for a person to review.
 
 ## Architecture
 
@@ -49,8 +69,12 @@ av-11/
 │   ├── engine/cadence.js              Pure engine (no UI, no DOM)
 │   ├── engine/cadence.test.mjs        Unit tests
 │   ├── export/schema.js               Shared LLM-ready export schema
-│   ├── data/sample.js                 Synthetic GCC sample + exporters
+│   ├── data/sample.js                 Synthetic GCC sample, exporters, starter prompt
 │   └── components/CadenceGapCalculator.jsx
+├── examples/
+│   ├── ask-local-model.mjs            Send an export to a local model (localhost only)
+│   ├── make-samples.mjs               Regenerates the sample exports
+│   └── sample-export.{json,md}, sample-prompt.txt
 └── index.html                         Self-contained standalone build
 ```
 

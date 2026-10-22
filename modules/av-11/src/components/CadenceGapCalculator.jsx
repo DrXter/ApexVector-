@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { assessCadenceGap, DAYS, DECISIONS } from '../engine/cadence.js';
-import { SAMPLE_GCC, exportBundleJson, exportBundleMarkdown } from '../data/sample.js';
+import { SAMPLE_GCC, exportBundleJson, exportBundleMarkdown, exportPrompt } from '../data/sample.js';
 
 const BAND_COLOR = { photograph: '#FF4444', wide: '#FF8C42', narrowing: '#F5A623', tight: '#00FF41' };
 
@@ -37,6 +37,7 @@ export default function CadenceGapCalculator({ onResult, embedded = false }) {
   const [form, setForm] = useState(toForm(SAMPLE_GCC));
   const [result, setResult] = useState(null);
   const [decision, setDecision] = useState('pending');
+  const [copied, setCopied] = useState('');
 
   const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
 
@@ -94,7 +95,11 @@ export default function CadenceGapCalculator({ onResult, embedded = false }) {
       )}
 
       {result && result.ok && (
-        <Result r={result} system={system} decision={decision} setDecision={setDecision}
+        <Result r={result} system={system} decision={decision} setDecision={setDecision} copied={copied}
+          onCopy={async () => {
+            try { await navigator.clipboard.writeText(exportPrompt(result, decision, system)); setCopied('copied. paste it into your local model'); }
+            catch { setCopied('copy blocked by the browser: use export Markdown instead'); }
+          }}
           onJson={() => download(exportBundleJson(result, decision, system), 'apexvector-av11-cadence-gap.json', 'application/json')}
           onMd={() => download(exportBundleMarkdown(result, decision, system), 'apexvector-av11-cadence-gap.md', 'text/markdown')} />
       )}
@@ -155,7 +160,7 @@ function RiverStrip({ r }) {
   );
 }
 
-function Result({ r, system, decision, setDecision, onJson, onMd }) {
+function Result({ r, system, decision, setDecision, onJson, onMd, onCopy, copied }) {
   const c = BAND_COLOR[r.band];
   const st = r.steps;
   const needText = Number.isFinite(r.suggested.testsPerYear) ? `${r.suggested.testsPerYear} tests a year` : 'more than 1,000 tests a year';
@@ -238,7 +243,8 @@ function Result({ r, system, decision, setDecision, onJson, onMd }) {
       <div style={S.controls}>
         <button style={{ ...S.btn, ...S.btnGhost, ...S.small }} onClick={onJson}>export JSON</button>
         <button style={{ ...S.btn, ...S.btnGhost, ...S.small }} onClick={onMd}>export Markdown for your LLM</button>
-        <span style={S.hint}>generated in your browser, includes the decision above</span>
+        <button style={{ ...S.btn, ...S.btnGhost, ...S.small }} onClick={onCopy}>copy as prompt for your local LLM</button>
+        <span style={S.hint}>{copied || 'generated in your browser, includes the decision above. nothing is sent anywhere'}</span>
       </div>
     </div>
   );

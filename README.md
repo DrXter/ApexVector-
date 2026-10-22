@@ -26,6 +26,10 @@ Every module starts as a problem practitioners actually face, gets validated by 
 | **AV-10** | [The Final Showdown](./modules/av-10/) | 🟡 Season 1 Finale | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-10/) |
 | **AV-11** | [Pentest Cadence Gap Calculator](./modules/av-11/) | AI for Security · Season 2 | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-11/) |
 
+### Season 2 · bring your own local model
+
+Season 2 modules export their result as JSON and prompt-ready Markdown from one shared schema, generated in the browser. [AV-11](./modules/av-11/) adds a copy-as-prompt button and a script that sends an export to a model running on your own machine (Ollama or any OpenAI-compatible local endpoint, localhost only). Tuned local model packages and a master copilot are planned for later Season 2 episodes and are not released yet.
+
 ### — AI for Security —
 
 **AV-01 · VulnPriority Engine**

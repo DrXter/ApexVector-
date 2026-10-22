@@ -55,3 +55,10 @@ export function toBundle(result, decision = 'pending', systemName = SAMPLE_GCC.n
 
 export const exportBundleJson = (result, decision, systemName, generatedAt) => exportJson(toBundle(result, decision, systemName, generatedAt));
 export const exportBundleMarkdown = (result, decision, systemName, generatedAt) => exportMarkdown(toBundle(result, decision, systemName, generatedAt));
+
+/** Starter prompt for a local model. The export is appended below it. */
+export const PROMPT_RISK_MEMO = `Here is my pentest cadence gap export. Draft a one-page risk memo for the platform owner: what the gap is, what it depends on, and two options with their trade-offs. Do not state any number that is not in the file. Respect the limits listed in the file. The human decision in the file stands; do not change it.`;
+
+/** Prompt-ready text: starter prompt followed by the Markdown export. */
+export const exportPrompt = (result, decision, systemName, generatedAt) =>
+  `${PROMPT_RISK_MEMO}\n\n---\n\n${exportBundleMarkdown(result, decision, systemName, generatedAt)}`;

@@ -6,7 +6,7 @@ import {
   assessCadenceGap, validateInputs, coveredDays, untestedShare, neededTests, tierFor, riskStatement,
   GAP_BANDS, CADENCE_TIERS, DAYS, DEFAULTS, MODULE_ID, ENGINE_VERSION, DECISIONS,
 } from './cadence.js';
-import { SAMPLE_GCC, toBundle, exportBundleJson, exportBundleMarkdown } from '../data/sample.js';
+import { SAMPLE_GCC, toBundle, exportBundleJson, exportBundleMarkdown, exportPrompt, PROMPT_RISK_MEMO } from '../data/sample.js';
 import { buildExport, exportJson, exportMarkdown, SCHEMA_ID } from '../export/schema.js';
 
 let pass = 0, fail = 0;
@@ -157,6 +157,12 @@ assert(pendingBundle.decisions[0].decision === 'pending', 'default decision is p
 const generic = buildExport({ moduleId: 'av-99', moduleName: 'X', moduleVersion: '0.0.1', inputs: { a: 1 }, outputs: { b: { c: 2 } }, generatedAt: fixed });
 assert(exportMarkdown(generic).includes('**c**: 2'), 'markdown flattens nested outputs');
 assert(JSON.parse(exportJson(generic)).module.id === 'av-99', 'generic JSON round-trips');
+
+// prompt for a local LLM
+const pr = exportPrompt(s, 'pending', SAMPLE_GCC.name, fixed);
+assert(pr.startsWith(PROMPT_RISK_MEMO), 'prompt starts with the starter prompt');
+assert(pr.includes('## Limits') && pr.includes('## Human decisions'), 'prompt carries the limits and the human decision');
+assert(pr.includes('Do not state any number that is not in the file'), 'prompt forbids invented numbers');
 
 console.log(`\nAV-11 pentest cadence gap calculator engine: ${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);
