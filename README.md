@@ -6,24 +6,27 @@ An open-source security toolkit — built one real problem at a time.
 
 Every module starts as a problem practitioners actually face, gets validated by the community, and ships as a working tool you can open in your browser. No frameworks. No whitepapers. No sign-up.
 
-**Season 1 is complete — ten modules across two problem spaces.** Season 2 is coming up next, built for the boardroom and the difficult decisions it has to make on AI risk.
+**Season 1 is complete — ten modules across two problem spaces.** Season 2 is under way: AI-led pentesting where the AI runs the test and a human owns the decision, built for Global Capability Centres, with a new tool every Thursday.
 
 ---
 
 ## Modules
 
+<!-- av:modules-table:start -->
 | ID | Module | Pillar | Status | Open |
 |----|--------|--------|--------|------|
 | **AV-01** | [VulnPriority Engine](./modules/av-01/) | AI for Security | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-01/) |
 | **AV-02** | [Alert Triage Simulator](./modules/av-02/) | AI for Security | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-02/) |
 | **AV-03** | [Risk Translator](./modules/av-03/) | AI for Security | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-03/) |
-| **AV-04** | [Red Team Recon Planner](./modules/av-04/) | AI for Security | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-04/) |
+| **AV-04** | [Red Team Scope & Recon Planner](./modules/av-04/) | AI for Security | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-04/) |
 | **AV-05** | [DevSecOps AI Readiness Checker](./modules/av-05/) | AI for Security | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-05/) |
 | **AV-06** | [Prompt Injection Test Suite](./modules/av-06/) | 🔴 Security for AI | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-06/) |
 | **AV-07** | [Agentic AI Threat Modeller](./modules/av-07/) | 🔴 Security for AI | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-07/) |
 | **AV-08** | [AI Memory Attack Simulator](./modules/av-08/) | 🔴 Security for AI | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-08/) |
 | **AV-09** | [Shadow AI Risk Scanner](./modules/av-09/) | 🔴 Security for AI | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-09/) |
 | **AV-10** | [The Final Showdown](./modules/av-10/) | 🟡 Season 1 Finale | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-10/) |
+| **AV-11** | [Pentest Cadence Gap Calculator](./modules/av-11/) | 🔵 AI-Led Pentest | ✅ Live | [Open tool ↗](https://drxter.github.io/ApexVector-/modules/av-11/) |
+<!-- av:modules-table:end -->
 
 ### — AI for Security —
 
@@ -63,6 +66,15 @@ Your employees are already using AI tools you've never heard of — pasting data
 **AV-10 · The Final Showdown**
 Nine modules. Nine lenses on the same organisation. One shared intake runs through all of them — vulnerability priority feeds straight into board risk translation, the one real chain in the series — and every lens rolls up into a single composite AI-security posture score. Not a fake pipeline pretending unrelated risk domains cause one another: nine honest, independent measurements, combined into one portfolio view. Edit the intake, run the pipeline, see which of the nine lenses is your weakest link.
 
+### — Season 2 · AI-led pentest, for GCCs —
+
+*The AI runs the test. A person owns the decision. Every tool is built for Global Capability Centres, ends in a human decision gate, and downloads its data as JSON and Markdown you can feed to your own LLM. Nothing leaves your browser.*
+
+<!-- av:season2:start -->
+**AV-11 · Pentest Cadence Gap Calculator**
+Turn release rate and test cadence into the days a year the live system is not the one you tested, then record who accepts the gap.
+<!-- av:season2:end -->
+
 ---
 
 ## Two problem spaces
@@ -95,27 +107,38 @@ Most security programmes treat these as separate. They aren't. Season 1 built ou
 
 ## Repository structure
 
+<!-- av:structure:start -->
 ```
 ApexVector-/
-├── README.md
+├── README.md                          Module lists below are generated
+├── scripts/
+│   └── update-readme.mjs              Rebuilds the generated README sections
 └── modules/
     ├── av-01/                        VulnPriority Engine
     ├── av-02/                        Alert Triage Simulator
     ├── av-03/                        Risk Translator
-    ├── av-04/                        Red Team Recon Planner
+    ├── av-04/                        Red Team Scope & Recon Planner
     ├── av-05/                        DevSecOps AI Readiness Checker
     ├── av-06/                        Prompt Injection Test Suite
     ├── av-07/                        Agentic AI Threat Modeller
     ├── av-08/                        AI Memory Attack Simulator
     ├── av-09/                        Shadow AI Risk Scanner
-    └── av-10/                        The Final Showdown (Season 1 finale)
-        ├── index.html                Standalone build — open in any browser
-        ├── README.md
-        └── src/
-            ├── module.js             Platform manifest — registry + headless API
-            ├── engine(s)/            Pure engine (no UI, no DOM) + tests
-            ├── data/                 Samples, parsers, exporters
-            └── components/           Platform-mountable React module
+    ├── av-10/                        The Final Showdown
+    └── av-11/                        Pentest Cadence Gap Calculator
+```
+<!-- av:structure:end -->
+
+Inside each module:
+
+```
+av-NN/
+├── index.html                Standalone build — open in any browser
+├── README.md
+└── src/
+    ├── module.js             Platform manifest — registry + headless API
+    ├── engine(s)/            Pure engine (no UI, no DOM) + tests
+    ├── data/                 Samples, parsers, exporters
+    └── components/           Platform-mountable React module
 ```
 
 Every module follows the same shape: a **pure engine** with no UI dependency, a **data layer**, a **React component**, and a **manifest** the platform registry reads to mount it.
@@ -158,6 +181,7 @@ AV-10 is explicit that only the AV-01 → AV-03 link is a genuine causal chain; 
 
 ## Running locally
 
+<!-- av:running:start -->
 ```bash
 git clone https://github.com/DrXter/ApexVector-.git
 cd ApexVector-/modules/av-01
@@ -165,7 +189,7 @@ cd ApexVector-/modules/av-01
 # open index.html directly, or serve it
 npx serve .
 
-# run the engine tests
+# run an engine test (from inside a module folder)
 node src/engine/scoring.test.mjs      # av-01
 node src/engine/triage.test.mjs       # av-02
 node src/engine/translate.test.mjs    # av-03
@@ -176,17 +200,25 @@ node src/engine/agentic.test.mjs      # av-07
 node src/engine/memory.test.mjs       # av-08
 node src/engine/shadow.test.mjs       # av-09
 node src/engines/posture.test.mjs     # av-10
+node src/engine/cadence.test.mjs      # av-11
 ```
+<!-- av:running:end -->
 
 Each module's `index.html` is fully self-contained — no build step, no dependencies, no network calls required.
 
 ---
 
-## What's next — Season 2
+## Season 2 — AI-led pentest, for GCCs
 
-Season 1 was built for practitioners — engineers, analysts, red-teamers who open a tool and use it. **Season 2 is built for the boardroom** — CISOs, CXOs, board and audit-committee members who fund, govern, and ultimately answer for AI risk. Same open-source discipline, same weekly rhythm, different questions: AI security budget and ROI, accountability when an AI system fails, exposure from shadow AI and ungoverned agents, AI supply chain due diligence, and where a company's AI-driven IP is actually at risk.
+AI-led pentesting has gone from demo to product. The technology is real. The accountability model is not. **Season 2 is built on one idea: AI can run the test, but a human must own the decision.** It is aimed at Global Capability Centres, which answer to a parent company, regulators and their own leadership at the same time.
 
-Details land here as Season 2 begins.
+A new episode and tool every Thursday, starting 5 November 2026. Each tool ships with a human decision gate and an LLM-ready export, and the season is heading toward one package that runs with a local model, on your own machine, inside your own boundary.
+
+## What's next — Season 3
+
+Season 3 is built for the boardroom — CISOs, CXOs, board and audit-committee members who fund, govern, and ultimately answer for AI risk. Same open-source discipline, same weekly rhythm, different questions: AI security budget and ROI, accountability when an AI system fails, exposure from shadow AI and ungoverned agents, AI supply chain due diligence, and where a company's AI-driven IP is actually at risk.
+
+Details land here as Season 3 begins.
 
 ---
 
@@ -215,4 +247,4 @@ MIT — use it, fork it, build on it.
 
 ---
 
-*ApexVector · AI for Security · Security for AI · Season 1 complete · Built in public.*
+*ApexVector · AI for Security · Security for AI · Season 1 complete · Season 2 under way · Built in public.*
