@@ -1,0 +1,16 @@
+{
+  "name": "@apexvector/av-11-pentest-cadence-gap",
+  "version": "1.0.0",
+  "description": "Turn release rate and test cadence into the days a year the live system is not the one you tested.",
+  "type": "module",
+  "main": "src/module.js",
+  "scripts": {
+    "test": "node src/engine/cadence.test.mjs"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.28.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  }
+}
