@@ -1,0 +1,17 @@
+{
+  "name": "@apexvector/av-12-human-vs-agent-finding-classifier",
+  "version": "1.0.0",
+  "description": "For each class of finding: should an AI agent hunt it, a person, or both? Season 2, Episode 2.",
+  "type": "module",
+  "main": "src/module.js",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "scripts": {
+    "test": "node src/engine/classifier.test.mjs",
+    "build": "node build.mjs"
+  }
+}
